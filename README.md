@@ -14,7 +14,7 @@ Our study investigates the ability of LLMs to detect third-party actors and eval
 - Nevertheless, they hold promise as **preliminary aids** for supporting and expediting human assessment.  
 
 ## Contents  
-- `prompt.txt`: The prompt used to instruct the LLM during the analysis of privacy policy documents.  
+- `prompt_template`: The prompt used to instruct the LLM during the analysis of privacy policy documents.  
 
 
 ## License  
