@@ -1,0 +1,82 @@
+PROMPT_TEMPLATE = """
+
+You are analyzing a section of a privacy policy.
+
+Your task:
+
+1. List the names of third-party companies collecting personal data from the user that are explicitly mentioned in the privacy policy section.
+2. List personal data categories that are clearly linked to third-party sharing. Only include specific items (e.g. “IP address”, “browsing history”, “location”). Only include what is stated directly.
+
+Guidelines:
+- Do not guess or infer. Only include what is written clearly in the text.
+- Respond only with the information requested. Do not explain or comment.
+
+Respond in this format:
+
+Third Party Mentions:
+- [Company Name]:
+
+Data Categories:
+- [data category 1]
+- [data category 2]
+
+Privacy Policy Section:
+{chunk}
+
+List only the data categories that the organization shares or processes with third parties.
+Translate and output everything in English, even if the original policy section is in another language.
+
+"""
+
+
+COMBINED_PROMPT_TEMPLATE = """
+
+You are given multiple summaries extracted from different sections of a privacy policy.
+
+List the results following these steps:
+
+1. Review the third-party companies and clean up the results: Remove duplicates, including alternate spellings, singular/plural forms and abbreviations. Do not list multiple entries for the same company.
+
+2. Review the data categories and clean up the results: Remove duplicates, including alternate spellings, singular/plural forms and synonyms. Use lowercase. Write each category in 1-2 words.
+
+3. List sensitive personal data categories only if they are explicitly mentioned in the data categories list. Normalize the terms to match the list below. Do not include duplicates.
+Only the following data categories are considered sensitive:
+   - “racial or ethnic origin”
+   - “political opinions”
+   - “religious or philosophical beliefs”
+   - “trade union membership”
+   - “genetic data”
+   - “biometric data”
+   - “health data”
+   - “sex life or sexual orientation”
+   - “location data”
+
+Guidelines:
+- Exclude vague third parties like "partners", "advertisers" or "third parties". Only include company names that are explicitly mentioned.
+- Exclude general terms like "data" or "information".
+- Never guess or include categories that are not explicitly stated in the summaries.
+- Always exclude the company’s own name ({company_name}) or any part of it from the third party list.
+- Only output a clean, final list; do not include explanations, repeated headings, or internal reasoning.
+- If no valid third parties or data categories are found, write ‘None' in the output.
+
+Respond in this format:
+
+Third Party Companies
+- [company 1]
+- [company 2]
+
+Data Categories
+- [data category 1]
+- [data category 2]
+
+Sensitive Data Categories
+- [sensitive data category 1]
+- [sensitive data category 2]
+
+
+Combined Input:
+{chunk}
+
+Translate and output everything in English, even if the summary is in another language.
+
+"""
